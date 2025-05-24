@@ -1,5 +1,4 @@
-﻿using System;
-using BusinessLogic;
+﻿using BusinessLogic;
 using Entities;
 
 public class Program
@@ -11,8 +10,7 @@ public class Program
 
         do
         {
-            Console.WriteLine("\nBienvenido al gestor de productos Dummy");
-            Console.WriteLine("Por favor, elige una opción:");
+            Console.WriteLine("Bienvenido al gestor de productos Dummy");
             Console.WriteLine("1. Añadir un producto");
             Console.WriteLine("2. Consultar listado de productos");
             Console.WriteLine("3. Salir del menú");
@@ -26,8 +24,6 @@ public class Program
                     case 1:
                         Product product = new Product();
 
-                        Console.WriteLine("Digite la información del producto.");
-
                         Console.Write("ID del producto: ");
                         product.Id = Int32.Parse(Console.ReadLine());
 
@@ -40,7 +36,16 @@ public class Program
                         Console.Write("Stock del producto: ");
                         product.Stock = Int32.Parse(Console.ReadLine());
 
-                        manager.AddProduct(product);
+                        if (manager.AddProduct(product, out List<string> errors))
+                        {
+                            Console.WriteLine("Producto agregado correctamente.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Errores al agregar el producto:");
+                            foreach (var err in errors)
+                                Console.WriteLine("- " + err);
+                        }
                         break;
 
                     case 2:
@@ -64,7 +69,7 @@ public class Program
             }
             catch (FormatException)
             {
-                Console.WriteLine("Entrada inválida. Asegúrese de ingresar números donde se espera.");
+                Console.WriteLine("Entrada inválida. Asegúrese de ingresar números válidos.");
             }
             catch (Exception ex)
             {

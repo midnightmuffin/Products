@@ -3,38 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Entities
 {
-    // Objetos de tipo DTO (Data Transfer Object)
-    // POJOS (Plain Old Java Object) Objetos que no tienen acciones, solo atributos
     public class Product : ProductBase
     {
-        public double Price { get; set; }
-        public int Stock { get; set; }
+        public double Price;
+        public int Stock;
 
-        public bool ValidateProduct()
+        public bool ValidateProduct(out List<string> errors)
         {
-            bool isValid = true;
+            errors = new List<string>();
 
-            if (!ValidateName())
-            {
-                isValid = false;
-            }
-
+            if (string.IsNullOrWhiteSpace(Name))
+           
+                errors.Add("El nombre no debe estar vacío.");
+           
             if (Price <= 0)
-            {
-                Console.WriteLine("Error: El precio debe ser mayor que cero.");
-                isValid = false;
-            }
+                errors.Add("El precio debe ser mayor a 0.");
 
-            if (Stock < 0)
-            {
-                Console.WriteLine("Error: El stock no puede ser negativo.");
-                isValid = false;
-            }
+            if (Stock < 1)
+                errors.Add("El stock no puede ser negativo.");
 
-            return isValid;
+            return errors.Count == 0;
         }
     }
 }

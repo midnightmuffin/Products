@@ -1,5 +1,5 @@
-﻿using Entities;
-using DataPersistence;
+﻿using DataPersistence;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,17 @@ namespace BusinessLogic
 {
     public class ProductManager
     {
-        public FileManager fileManager = new FileManager();
+        private FileManager fileManager = new FileManager();
 
-        public void AddProduct(Product product)
+        public bool AddProduct(Product product, out List<string> errors)
         {
-            if (product.ValidateProduct())
+            if (product.ValidateProduct(out errors))
             {
                 fileManager.SaveProduct(product);
-                Console.WriteLine("Producto agregado correctamente.");
+                return true;
             }
-            else
-            {
-                Console.WriteLine("No se pudo agregar el producto. Verifique los datos.");
-            }
+
+            return false;
         }
 
         public List<Product> GetProducts()
