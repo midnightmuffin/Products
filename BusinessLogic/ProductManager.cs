@@ -12,9 +12,11 @@ namespace BusinessLogic
     {
         private FileManager fileManager = new FileManager();
 
-        public bool AddProduct(Product product, out List<string> errors)
+        public bool FileWasCreated => fileManager.FileCreated;
+
+        public bool AddProduct(Product product, out List<string> errores)
         {
-            if (product.ValidateProduct(out errors))
+            if (product.ValidateProduct(out errores))
             {
                 fileManager.SaveProduct(product);
                 return true;

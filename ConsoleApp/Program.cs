@@ -50,11 +50,23 @@ public class Program
 
                     case 2:
                         var productList = manager.GetProducts();
-                        Console.WriteLine("Listado de productos existentes:");
 
-                        foreach (var item in productList)
+                        if (manager.FileWasCreated)
                         {
-                            Console.WriteLine($"ID: {item.Id}, Nombre: {item.Name}, Precio: {item.Price}, Stock: {item.Stock}");
+                            Console.WriteLine("El archivo no existía. Se creará automáticamente al guardar un producto.");
+                        }
+
+                        if (productList.Count == 0)
+                        {
+                            Console.WriteLine("No hay productos registrados.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Listado de productos existentes:");
+                            foreach (var item in productList)
+                            {
+                                Console.WriteLine($"ID: {item.Id}, Nombre: {item.Name}, Precio: {item.Price}, Stock: {item.Stock}");
+                            }
                         }
                         break;
 
