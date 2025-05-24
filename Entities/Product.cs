@@ -12,5 +12,29 @@ namespace Entities
     {
         public double Price { get; set; }
         public int Stock { get; set; }
+
+        public bool ValidateProduct()
+        {
+            bool isValid = true;
+
+            if (!ValidateName())
+            {
+                isValid = false;
+            }
+
+            if (Price <= 0)
+            {
+                Console.WriteLine("Error: El precio debe ser mayor que cero.");
+                isValid = false;
+            }
+
+            if (Stock < 0)
+            {
+                Console.WriteLine("Error: El stock no puede ser negativo.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
     }
 }

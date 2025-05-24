@@ -1,34 +1,76 @@
-﻿
+﻿using System;
+using BusinessLogic;
+using Entities;
+
 public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Bienvenido al gestor de productos Dummy");
-        Console.WriteLine("Por favor, elige una opción:");
-        Console.WriteLine("1. Añadir un producto");
-        Console.WriteLine("2. Consultar listado de productos");
+        ProductManager manager = new ProductManager();
+        int option = 0;
 
-        var option = Int32.Parse(Console.ReadLine());
-
-        switch (option)
+        do
         {
-            case 1:
-                Console.WriteLine("Digite la información del producto.");
-                // Aquí iría la lógica para añadir un producto
-                break;
+            Console.WriteLine("\nBienvenido al gestor de productos Dummy");
+            Console.WriteLine("Por favor, elige una opción:");
+            Console.WriteLine("1. Añadir un producto");
+            Console.WriteLine("2. Consultar listado de productos");
+            Console.WriteLine("3. Salir del menú");
 
-            case 2:
-                Console.WriteLine("Listado de productos existentes:");
-                // Aquí iría la lógica para consultar el listado de productos
-                break;
-             
-            case 3:
-                Console.WriteLine("Salir del menú.");
-                break;
+            try
+            {
+                option = Int32.Parse(Console.ReadLine());
 
-            default:
-                Console.WriteLine("Opción no válida. Por favor, elige una opción válida.");
-                break;
-        }
+                switch (option)
+                {
+                    case 1:
+                        Product product = new Product();
+
+                        Console.WriteLine("Digite la información del producto.");
+
+                        Console.Write("ID del producto: ");
+                        product.Id = Int32.Parse(Console.ReadLine());
+
+                        Console.Write("Nombre del producto: ");
+                        product.Name = Console.ReadLine();
+
+                        Console.Write("Precio del producto: ");
+                        product.Price = Double.Parse(Console.ReadLine());
+
+                        Console.Write("Stock del producto: ");
+                        product.Stock = Int32.Parse(Console.ReadLine());
+
+                        manager.AddProduct(product);
+                        break;
+
+                    case 2:
+                        var productList = manager.GetProducts();
+                        Console.WriteLine("Listado de productos existentes:");
+
+                        foreach (var item in productList)
+                        {
+                            Console.WriteLine($"ID: {item.Id}, Nombre: {item.Name}, Precio: {item.Price}, Stock: {item.Stock}");
+                        }
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Saliendo del programa.");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Entrada inválida. Asegúrese de ingresar números donde se espera.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocurrió un error inesperado: " + ex.Message);
+            }
+
+        } while (option != 3);
     }
 }
